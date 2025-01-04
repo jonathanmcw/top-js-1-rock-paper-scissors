@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            //  let input of human - rock, paper, scissors // of value 1,2,3 
+            //  let input of computer - rock, paper, scissors
+            //  let result - win, lose, tie
+            //  let humanScore, computerScore count 
+
+            let result = 0;
+            let humanSelection = 0;
+            let computerSelection = 0;
+            let playCount = 0;
+            
+            function getHumanChoice() {
+                let input = prompt("Rock, Paper, or Scissors?").toLowerCase();
+                switch (input) {
+                    case "rock":
+                        return 0;
+                    case "paper":
+                        return 1;
+                    case "scissors":
+                        return 2;
+                    default:
+                        getHumanChoice();
+                }
+            };
+
+            function getComputerChoice() {
+                //     0:rock / 1:paper / 2:scissors
+                // switch (Math.floor(Math.random() * 3)) {
+                //     case 0:
+                //         console.log("rock");
+                //         return 0;
+                //     case 1:
+                //         console.log("paper");
+                //         return 1;
+                //     case 2:
+                //         console.log("scissors");
+                //         return 2;
+                // }
+                return Math.floor(Math.random() * 3);
+            };
+
+            function playRound(x , y) {
+                switch (x - y) {
+                    case 1:         // Paper vs Rock, or Scissors vs Paper
+                    case -2:        // 0 - Rock vs 2 - Scissors
+                        return 1;   // win
+                    case -1:        // the other way round
+                    case 2:
+                        return -1; // lose
+                    case 0:
+                        return 0; // tie
+                }
+            }
+            
+            function playGame() {
+                while (playCount < 5) {
+                    humanSelection = getHumanChoice();
+                    computerSelection = getComputerChoice();
+                    result += playRound(humanSelection,computerSelection);
+                    playCount ++;
+                }
+
+                if ( result > 0) {
+                    return "You win!";
+                } else if ( result == 0 ) {
+                    return "It's a tie";
+                } else {
+                    return"You lose!";
+                }
+            }
+
+            console.log(playGame());
+
+            //  getCOmputerChoice
+            //  getHumanChoice
+
+            //  playRound
+                // if human === computer tie
+                // if human == rock, and computer == scissor, human win
+                // if human == paper, and computer == rock, human win
+                // if human == scissors, and computer == paper, human win, else lost
+                // score setting
+            
+            // functionn playGame
+                // PlayRound for 5 times
+                // Final score setting at the end
+
+        });
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
