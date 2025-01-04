@@ -4,28 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
+    <style>
+        .scoreboard {
+            margin-top: 20px;
+        }
+    </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            //  let input of human - rock, paper, scissors // of value 1,2,3 
-            //  let input of computer - rock, paper, scissors
-            //  let result - win, lose, tie
-            //  let humanScore, computerScore count 
+            const ROCK = 0;
+            const PAPER = 1;
+            const SCISSORS = 2;
+
             let result = 0;
-            let humanSelection = 0;
-            let computerSelection = 0;
+            let humanScore = 0;
+            let computerScore = 0;
             let playCount = 0;
             
             function getHumanChoice(input) {
-                // let input = prompt("Rock, Paper, or Scissors?").toLowerCase();
                 switch (input) {
                     case "rock":
-                        return 0;
+                        return ROCK;
                     case "paper":
-                        return 1;
+                        return PAPER;
                     case "scissors":
-                        return 2;
-                    // default:
-                    //     getHumanChoice();
+                        return SCISSORS;
                 }
             };
 
@@ -33,10 +35,10 @@
                 return Math.floor(Math.random() * 3);
             };
 
-            function playRound(x , y) {
-                switch (x - y) {
+            function playRound(humanChoice, computerChoice) {
+                switch (humanChoice - computerChoice) {
                     case 1:         // Paper vs Rock, or Scissors vs Paper
-                    case -2:        // 0 - Rock vs 2 - Scissors
+                    case -2:        // Rock vs Scissors
                         return 1;   // win
                     case -1:        // the other way round
                     case 2:
@@ -46,36 +48,46 @@
                 }
             }
             
-            
             const buttons = document.querySelectorAll("button");
+            const resultDisplay = document.querySelector("#result");
+            const humanScoreDisplay = document.querySelector("#human-score");
+            const computerScoreDisplay = document.querySelector("#computer-score");
 
             buttons.forEach((button) => {
                 button.addEventListener("click", (e) => {
-                    humanSelection = getHumanChoice(button.value);
-                    console.log(humanSelection);
-                    computerSelection = getComputerChoice();
-                    result = playRound(humanSelection,computerSelection);
-                    const textDisplay = document.querySelector("div");
+                    const humanChoice = getHumanChoice(button.value);
+                    const computerChoice = getComputerChoice();
+                    const result = playRound(humanChoice,computerChoice);
+                    
+                    let resultText = `You chose ${button.value}. Computer chose ${["rock", "paper", "scissors"][computerChoice]}. `;
 
                     if ( result > 0) {
-                        textDisplay.textContent = "You win!";
+                        resultText += "You win!";
+                        humanScore++;
                     } else if ( result == 0 ) {
-                        textDisplay.textContent = "It's a tie";
+                        resultText += "It's a tie.";
                     } else {
-                        textDisplay.textContent = "You lose!";
+                        resultText += "You lose!";
+                        computerScore++;
                     }
 
-                })
+                    resultDisplay.textContent = resultText;
+                    humanScoreDisplay.textContent = `Human: ${humanScore}`;
+                    computerScoreDisplay.textContent = `Computer: ${computerScore}`;
+                });
             });
         });
     </script>
 </head>
 <body>
-
+    <h1>Rock Paper Scissors</h1>
     <button value="rock">Rock</button>
     <button value="paper">Paper</button>
     <button value="scissors">Scissors</button>
-    <div></div>
-    
+    <div id="result"></div>
+    <div class="scoreboard">
+        <p id="human-score">Human: 0</p>
+        <p id="computer-score">Computer: 0</p>
+    </div>
 </body>
 </html>
